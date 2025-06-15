@@ -1,35 +1,29 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useRef, useEffect } from "react";
 import confetti from "canvas-confetti";
 import * as THREE from "three";
+import VANTA from "vanta/dist/vanta.net.min";
 
 export default function Page() {
   const audioRef = useRef(null);
   const bgRef = useRef(null);
 
   useEffect(() => {
-    const loadVanta = async () => {
-      const VANTA = (await import("vanta/dist/vanta.net.min")).default;
-      VANTA({
-        el: bgRef.current,
-        THREE,
-        mouseControls: true,
-        touchControls: true,
-        minHeight: 200.0,
-        minWidth: 200.0,
-        scale: 1.0,
-        scaleMobile: 1.0,
-        color: 0xffffff,
-        backgroundColor: 0x000000,
-      });
-    };
-
-    loadVanta();
+    const effect = VANTA({
+      el: bgRef.current,
+      THREE,
+      mouseControls: true,
+      touchControls: true,
+      minHeight: 200.0,
+      minWidth: 200.0,
+      scale: 1.0,
+      scaleMobile: 1.0,
+      color: 0xffffff,
+      backgroundColor: 0x000000,
+    });
 
     return () => {
-      if (bgRef.current?.vantaEffect) {
-        bgRef.current.vantaEffect.destroy();
-      }
+      if (effect) effect.destroy();
     };
   }, []);
 
@@ -65,7 +59,7 @@ export default function Page() {
         onClick={shootConfettiAndPlay}
         className="mt-6 px-6 py-3 bg-red-600 hover:bg-red-700 rounded-full text-white text-lg font-bold shadow-lg transition duration-300"
       >
-        ❤️ Love, Moses Ugo
+        ❤️ Love, The StarBoys
       </button>
 
       <audio ref={audioRef} src="/birthday.mp3" preload="auto" />
